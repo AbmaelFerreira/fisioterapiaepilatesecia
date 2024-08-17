@@ -20,7 +20,7 @@ const sourceSans3 = Source_Sans_3({
 
 
 export const metadata: Metadata = {
-  title: "DoctorME",
+  title: "Físioterapia e Pilates",
   description: "Assistente pessoal para agendar consultas",
 };
 
@@ -31,12 +31,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <PreloadResources />
-      <body className={`${roboto.variable} ${sourceSans3.variable}`} >
 
-        <div className="bg-white text-red-500">header</div>
-        
-        {children}
+      <PreloadResources />
+
+      <body className={`${roboto.variable} ${sourceSans3.variable} bg-slate-200`} >
+
+        <div className="w-full m-auto max-w-[382px] mt-10 bg-white py-10 px-7 rounded-3xl shadow-md">
+          {children}
+        </div>
 
       </body>
     </html>
