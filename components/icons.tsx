@@ -1,11 +1,7 @@
 import { type SVGProps } from 'react';
+import { type  IconName } from '@/types/name';
 
-export type IconName = 
-| 'appointment' 
-| 'arrow-left' 
-| 'eye-off' 
-| 'eye-on' 
-| 'map';
+export { IconName };
  
 type IconProps = Readonly<{
     name: IconName;
