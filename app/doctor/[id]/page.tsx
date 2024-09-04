@@ -1,11 +1,29 @@
+'use client'
 import { Header } from "@/components/Header";
 import { Icon } from "@/components/icons";
 import Image from "next/image";
 import { formatHour } from "@/other/helpers";
+import { Button } from "@/components/button";
+import { useState } from "react";
 
+interface AgendaSelected {
+    id: string;
+    date: string;
+}
 export default function Doctor({ 
     params,
 }: Readonly<{params: { id: string } }>) {
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [agendaSelected, setAgendaSelected] = useState<AgendaSelected | null>(null);
+
+    const closeModal = () => setIsModalVisible(false);
+
+    const handSelectAgenda = (id: string, date: string) => {
+        setAgendaSelected({ id, date });
+
+        setIsModalVisible(true);
+    }
+
 
     const doctor = {
         firsName: "Ana Cristina",
@@ -145,8 +163,12 @@ export default function Doctor({
                 </div>
             </div>
 
-
         </div>
+        <Modal 
+            isVisible={isModalVisible} 
+            onClose={closeModal} 
+            agendaSelected={agendaSelected}
+        />
     </>
 );
 }
@@ -181,4 +203,33 @@ function AgendaButton({
             {formatHour(new Date(date))}
         </button>
     );
+}
+function Modal({
+    isVisible, 
+    onClose, 
+    agendaSelected}: {
+    isVisible: boolean; 
+    onClose: () => void;
+    agendaSelected: AgendaSelected | null;
+}) {
+    if(!isVisible) return null;
+
+    const handleOutsideClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if(event.target === event.currentTarget) onClose();
+    }
+
+    return (
+        <div 
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-end"
+            onClick={handleOutsideClick}>
+
+            <div className="bg-white rounded-t-3xl h-full max-h-[250px] w-full max-w-96  mx-auto p-8 text-center flex flex-col">
+                <h2 className="font-semibold text-2xl mb-8">Confirmar o agendamento?</h2>
+                <p className="mb-12 text-sm"> Agendamento para o dia 03/06/2024 às 15:00</p>
+                <Button>
+                    Sim, quero confirmar
+                </Button>
+            </div>
+        </div>
+    )
 }
